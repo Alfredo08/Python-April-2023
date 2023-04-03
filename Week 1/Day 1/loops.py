@@ -34,4 +34,3 @@ student_info = {
 
 for key in student_info:
     print( key, student_info[ key ] )
-
