@@ -1,6 +1,36 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask( __name__ )
+
+list_of_todos = [
+    {
+        "id" : 123,
+        "name" : "Learning flask",
+        "status" : "in_progress"
+    },
+    {
+        "id" : 456,
+        "name" : "Learning routes",
+        "status" : "complete"
+    },
+    {
+        "id" : 789,
+        "name" : "Learning static content and templates",
+        "status" : "in_progress"
+    },
+    {
+        "id" : 555,
+        "name" : "Learning POST",
+        "status" : "pending"
+    }
+]
+
+@app.route( "/todos", methods=["GET"] )
+def display_todos():
+    first_name = "Alex"
+    last_name = "Miller"
+    return render_template( "index.html", first_name = first_name, last_name = last_name, list_of_todos = list_of_todos )
+
 
 @app.route( "/home", methods=["GET"] )
 def hello_class():
