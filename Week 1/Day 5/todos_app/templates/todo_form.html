@@ -11,7 +11,7 @@
         <div class="container">
             <div class="row">
                 <h1>
-                    Add a new todo
+                    {{session["full_name"]}}, you are in the add a new todo section of this app
                 </h1>
             </div>
             <div class="row">
@@ -34,6 +34,7 @@
                         </label>
                         <input class="form-control" id="todo_status" name="todo_status" type="text">
                     </div>
+                    <input type="hidden" id="user_id" name="user_id" value="111" >
                     <button class="btn btn-success">
                         Add todo
                     </button>
