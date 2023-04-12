@@ -6,7 +6,7 @@ class Todo:
         self.name = data['name']
         self.status = data['status']
         self.user_id = data['user_id']
-        self.created_at = data['create_at']
+        self.created_at = data['created_at']
         self.updated_at = data['updated_at']
     
     @classmethod
