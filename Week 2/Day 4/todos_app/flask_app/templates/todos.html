@@ -38,6 +38,11 @@
                                 {{todo.status}}
                             </td>
                             <td class="actions">
+                                <form action="/todo/{{todo.id}}" method="GET">
+                                    <button type="submit" class="btn btn-secondary">
+                                        Details
+                                    </button>
+                                </form>
                                 {% if todo.user_id == session['user_id']: %}
                                     <form action="/todo/delete/{{todo.id}}" method="POST">
                                         <button type="submit" class="btn btn-danger">
@@ -49,8 +54,6 @@
                                             Edit
                                         </button>
                                     </form>
-                                {% else: %}
-                                    -----
                                 {% endif %}
                             </td>
                         </tr>

@@ -55,3 +55,11 @@ def update_todo( id ):
     }
     Todo.update_one( update_todo )
     return redirect( "/todos" )
+
+@app.route( "/todo/<int:id>", methods=['GET'] )
+def get_one_todo( id ):
+    data = {
+        "todo_id" : id
+    }
+    current_todo = Todo.get_one( data )
+    return render_template( "todo.html", current_todo = current_todo )

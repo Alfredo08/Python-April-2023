@@ -1,5 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
+from flask_app.models import users_model
 
 class Todo:
     def __init__( self, data ):
@@ -9,6 +10,7 @@ class Todo:
         self.user_id = data['user_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.user = None
     
     @classmethod
     def get_all( cls ):
@@ -58,3 +60,24 @@ class Todo:
         result = connectToMySQL( DATABASE ).query_db( query, data )
         return result
     
+    @classmethod
+    def get_one( cls, data ):
+        query  = "SELECT * "
+        query += "FROM todos t JOIN users u "
+        query += "ON t.user_id = u.id "
+        query += "WHERE t.id = %(todo_id)s;"
+
+        result = connectToMySQL( DATABASE ).query_db( query, data )
+        row = result[0]
+        current_todo = cls( row )
+        current_user = {
+            "id" : row['u.id'],
+            "first_name" : row['first_name'],
+            "last_name" : row['last_name'],
+            "email" : row['email'],
+            "password" : row['password'],
+            "updated_at" : row['u.updated_at'],
+            "created_at" : row['u.created_at']
+        }
+        current_todo.user = users_model.User( current_user )
+        return current_todo
