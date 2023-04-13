@@ -5,3 +5,8 @@ h1{
 .cat{
     width: 300px;
 }
+
+.actions{
+    display: flex;
+    flex-direction: row;
+}
