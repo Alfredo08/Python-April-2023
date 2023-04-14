@@ -1,0 +1,31 @@
+from flask import session, render_template, request, redirect
+from flask_app import app
+from flask_app.models.users_model import User
+
+@app.route( "/todos/user", methods = ['GET'] )
+def get_user_with_todos():
+    data = {
+        "user_id" : session['user_id']
+    }
+    current_user = User.get_one_with_todos( data )
+    return render_template( "user_with_todos.html", current_user = current_user )
+
+@app.route( "/", methods = ["GET"] )
+@app.route( "/registration", methods = ["GET"] )
+@app.route( "/login", methods = ["GET"] )
+def display_login_registration():
+    return render_template( "index.html" )
+
+@app.route( "/user/new", methods = ['POST'] )
+def create_user():
+    new_user = {
+        **request.form
+    }
+
+    if User.validate_user( new_user ) == False:
+        return redirect( "/" )
+    else:
+        user_id = User.create_one( new_user )
+        session['user_id'] = user_id
+        session['full_name'] = new_user['first_name'] + " " + new_user['last_name']
+        return redirect( "/todos" )
