@@ -1,7 +1,10 @@
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask_app import DATABASE, EMAIL_REGEX
+from flask_app import DATABASE, EMAIL_REGEX, app
 from flask_app.models import todos_model
 from flask import flash
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt( app )
 
 class User:
     def __init__( self, data ):
@@ -45,6 +48,20 @@ class User:
         result = connectToMySQL( DATABASE ).query_db( query, data )
         return result
 
+    @classmethod
+    def get_one_by_email( cls, data ):
+        query  = "SELECT * "
+        query += "FROM users "
+        query += "WHERE email = %(email)s;"
+
+        result = connectToMySQL( DATABASE ).query_db( query, data )
+        if len( result ) == 0:
+            flash( "This email doesn't exists in our Database.", "error_login_email" )
+            return None
+        else:
+            current_user = cls( result[0] )
+            return current_user
+        
     @staticmethod
     def validate_user( new_user ):
         is_valid = True
@@ -67,4 +84,16 @@ class User:
         
         return is_valid
 
-
+    @staticmethod
+    def encrypt_string( text ):
+        encrypted_string = bcrypt.generate_password_hash( text )
+        print( encrypted_string )
+        return encrypted_string
+    
+    @staticmethod
+    def validate_password( plain_password, hashed_password ):
+        if not bcrypt.check_password_hash( hashed_password, plain_password ):
+            flash( "Wrong credentials!", "error_login_password")
+            return False
+        else:
+            return True
