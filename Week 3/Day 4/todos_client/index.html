@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>
+            Welcome to the Todos Client
+        </h1>
+        <div>
+            <button onclick="loadTodos(this)">
+                Click here to load all the todos
+            </button>
+        </div>
+        <ul class="todos"></ul>
+
+        <form onsubmit="addNewTodo(event)">
+            <div>
+                <label for="name">
+                    New todo:
+                </label>
+                <input type="text" id="name" name="name"/>
+            </div>
+            <div>
+                <label for="status">
+                    Status:
+                </label>
+                <input type="text" id="status" name="status"/>
+            </div>
+            <div>
+                <label for="user_id">
+                    User id:
+                </label>
+                <input type="number" id="user_id" name="user_id"/>
+            </div>
+            <button type="submit">
+                Add new todo
+            </button>
+        </form>
+        <div class="errorMessage"></div>
+        <script src="./js/index.js"></script>
+    </body>
+</html>
